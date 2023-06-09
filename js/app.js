@@ -15,47 +15,47 @@ selector.addEventListener('change',function(e){
 
 
 
-
-function fetchCity(name){
-	
-	console.log('fetchCity()',name);
-
+function fetchCity(name){	
+	//console.log('fetchCity()',name);	
 	if (!name) {
+		location.innerHTML='';
 		msg.innerHTML='';
 		return;
 	}
 	
 	let url='https://www.prevision-meteo.ch/services/json/'+name;
 	fetchApi(url);
-
 }
 
 
-function fetchByCoords(lat,lng){
+function fetchByCoords(lat, lng){
+	
+	console.log('fetchByCoords(lat, lng)');
+
+	
+
 	if(!lat||!lng){
 		console.error("no lat/lng");
+		location.innerHTML='no lat/lng';
 		return;
 	}
+	
 	//'https://www.prevision-meteo.ch/services/json/lat=46.259lng=5.235';
-	console.log('fetchByCoords', lat, lng);
-	/*
-	let url=new URL('https://www.prevision-meteo.ch/services/json/');
-		url.searchParams.append('lat',lat);
-		url.searchParams.append('lng',lng);
-	*/
-	let url=`https://www.prevision-meteo.ch/services/json/lat=${lat}lng=${lng}`;
-	console.log(url);
+	//console.log('fetchByCoords', lat, lng);
+	
+	let url=`https://www.prevision-meteo.ch/services/json/lat=${lat}lng=${lng}`;	
 	fetchApi(url);
 }
 
 function fetchApi(url){
-	//please wait
+	//
+	//console.log('fetchApi(), please wait',url);
 	
-	console.log('fetchApi(), please wait',url);
-	
+	location.innerHTML='please wait';
+	msg.innerHTML='please wait';
+
 	let funny_url='https://gifdb.com/images/high/grumpy-loading-cat-u41rwec8mte07hdw.gif';	
 	imgStatus.setAttribute("src",funny_url);
-
 	msg.innerHTML='please wait..';
 
 	fetch(url)
@@ -70,7 +70,8 @@ function displayResult(dat){
 	console.log('displayResult()', dat);
 	
 	let current=dat.current_condition;
-	let key=current.condition_key;
+	//let key=current.condition_key;
+	
 	//let info=dat.city_info;
 	
 	//console.log(info);
@@ -84,11 +85,11 @@ function displayResult(dat){
 	*/
 	
 	//city info
-	//location.innerText=info.country;
+	location.innerText=dat.city_info.name;
 	
 	msg.innerText=current.condition;
 	//details.innerHTML='<pre>'+JSON.stringify(dat)+'</pre>';
-	imgStatus.setAttribute("src",dat.icon_big);
+	imgStatus.setAttribute("src",current.icon_big);
 }
 
 
